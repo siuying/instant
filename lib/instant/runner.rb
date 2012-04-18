@@ -18,6 +18,8 @@ module Instant
         {:status => :error, :cause => :parse_error, :message => e.message, :result => context.to_s }
       rescue Instant::LoopTooDeepError => e
         {:status => :error, :cause => :loop_too_deep, :message => "Loop too deep", :result => context.to_s }
+      rescue StandardError => e
+        {:status => :error, :cause => :unknown, :message => e.message, :result => context.to_s }        
       end
     end
   end

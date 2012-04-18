@@ -5,8 +5,9 @@ module Instant
   class LoopTooDeepError < StandardError; end
 
   class LogCollector
-    def initialize
+    def initialize(keys=[])
       @logs = {}
+      keys.each {|k| @logs[k] = [] } if keys
     end
     
     def append(key, value)
@@ -33,7 +34,7 @@ module Instant
   class Context
     def initialize
       @stringio = StringIO.new
-
+      @assigns = Set.new
       @loop_counter = 0
       @logger = Logger.new(@stringio)
       @logger.formatter = proc { |severity, datetime, progname, msg| "#{msg}\n" }
@@ -46,13 +47,14 @@ module Instant
       if @log_collectors.size > 0
         @log_collectors.last.append name, value
       else
+        @assigns << name
         @logger.info "#{name.to_s.ljust(8)} = #{value.to_s.center(5)}"
       end
       return value
     end
 
     def loop_begin
-      @log_collectors.push LogCollector.new
+      @log_collectors.push LogCollector.new(@assigns)
     end
 
     def loop_inside_begin

@@ -1,14 +1,17 @@
 #editor {
   position: absolute;
   width: 500px;
-  height: 400px;
+  height: 100%;
 }
 
 .right {
   position: absolute;
   left: 500px;
+  width: 400px;
+  height: 100%;
 }
 
 #output {
 font-size: 1.4em;
+height: 100%;
 }

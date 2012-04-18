@@ -16,14 +16,8 @@ module Instant
 
         puts "source:" + source
         if source && source.strip != ""
-          begin
-            result = Instant::Runner.new.run(source.strip)
-            result.merge({:status => :ok}).to_json
-          rescue Racc::ParseError => e
-            {:status => :error, :message => e.message }.to_json
-          rescue Instant::LoopTooDeepError => e
-            {:status => :error, :message => e.message }.to_json
-          end
+          result = Instant::Runner.new.run(source.strip)
+          result.to_json
         else
           {:status => :ok, :result => ""}.to_json
         end

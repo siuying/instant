@@ -96,8 +96,8 @@ end"
   loop_end
 end"
 
-    pp parser.process source
-    pp parser.process expected 
+    # pp parser.process source
+    # pp parser.process expected 
 
     subject.process(source).should == expected.strip
   end

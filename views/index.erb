@@ -47,14 +47,16 @@ $ ->
       data:
         source: val
       success: (data) ->
-        console.log data
         if data.status == "ok"
-          if data.result
-            $("#output").text(data.result)
-          else
-            $("#output").text("(no output)")
+
         else
           console.log "unexpected data:", data
+
+        if data.result
+          $("#output").text(data.result)
+        else
+          $("#output").text("(no output)")
+
       error: (x, t, e) ->
         console.log x, t, e
       dataType: 'json'

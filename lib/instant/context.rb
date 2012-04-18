@@ -63,7 +63,7 @@ module Instant
       @loop_counter = @loop_counter + 1
       
       if @loop_counter > 1000
-        loop_end
+        self.loop_end
         raise ::Instant::LoopTooDeepError.new("Loop too much")
       end
     end

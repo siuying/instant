@@ -19,9 +19,12 @@
       <div class="span12">
         <div class="row-fluid">
           <div class="span6">
-            <textarea id="editor" class="input-xlarge" rows="40">def hello
+            <textarea id="editor" class="input-xlarge" rows="40">def binary_search(key, array)
+   low = 0
+   high = array.length - 1
+end
 
-end</textarea>
+binary_search('a', ['a', 'b', 'c', 'd', 'e', 'f'])</textarea>
           </div>
           <div class="span6">
             <pre id="output">
@@ -36,9 +39,31 @@ end</textarea>
     <script src="/js/coffee-script.js"></script>
 <script type="text/coffeescript">
 $ ->
+  compile = ->
+    val = $("#editor").val()
+    $.ajax
+      type: 'POST'
+      url: '/compile'
+      data:
+        source: val
+      success: (data) ->
+        console.log data
+        if data.status == "ok"
+          if data.result
+            $("#output").text(data.result)
+          else
+            $("#output").text("(no output)")
+        else
+          console.log "unexpected data:", data
+      error: (x, t, e) ->
+        console.log x, t, e
+      dataType: 'json'
+
+  compile()
+  
   $("#editor").keyup (e) ->
-    val = $(e.target).val()
-    console.log "source:", val
+    compile()
+
 </script>
   </body>
 </html>

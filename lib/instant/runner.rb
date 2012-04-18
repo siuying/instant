@@ -6,7 +6,9 @@ module Instant
 
     def run(source)
       @processed = @processor.process(source)
-      Context.new.instance_eval(@processed).to_s
+      context = Context.new
+      return_value = context.instance_eval(@processed)
+      {:result => context.to_s, :return_value => return_value}
     end
   end
 end

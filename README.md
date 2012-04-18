@@ -1,10 +1,16 @@
 # Instant
 
-A experiment on real time visualize development tool, inspired by
+An experiment on real time visualize development tool, inspired by
 [Bret Victor's Inventing on Principle](http://vimeo.com/36579366) 
 talk and [@ermau  C# Implementation](https://github.com/ermau/Instant).
 
-## Run
+## Demo
+
+![](http://f.cl.ly/items/0m2o252A3n1C032R2s0X/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202012-04-19%20%E4%B8%8A%E5%8D%8812.23.58.png)
+
+You can run it live at [instant-ruby.herokuapp.com](http://instant-ruby.herokuapp.com).
+
+## Run Locally
 
     bundle install
     foreman start

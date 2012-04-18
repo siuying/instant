@@ -1,8 +1,7 @@
 require 'spec_helper'
-require 'instant'
 require 'pp'
 
-describe Instant do
+describe Instant::Processor do
   let(:parser) { RubyParser.new }
   
   it "should log assignment in method arguments" do

@@ -1,9 +1,10 @@
-body {
-  font-size: 1.4em;
-}
-
 #editor {
+  font-size: 1.4em;
   position: relative;
   width: 100%;
   height: 100%;
+}
+
+#output {
+  font-size: 1.4em;
 }

@@ -66,6 +66,42 @@ end"
 
     subject.process(source).should == expected.strip
   end
+  
+  it "should log if in while loop" do
+    source = "def hello
+  i = 0
+  j = 0
+  k = 0
+  while (i < 5) do
+    if i < 3
+      k = (k + i)
+    else
+      j = (j + i)
+    end
+    i = (i + 1)
+  end
+end"
+
+    expected = "def hello
+  i = log_assign(:i, 0)
+  j = log_assign(:j, 0)
+  k = log_assign(:k, 0)
+  loop_begin
+  while (i < 5) do
+    loop_inside_begin
+    ((i < 3) ? (k = log_assign(:k, (k + i))) : (j = log_assign(:j, (j + i)))
+    i = log_assign(:i, (i + 1)))
+    loop_inside_end
+  end
+  loop_end
+end"
+
+    pp parser.process source
+    pp parser.process expected 
+
+    subject.process(source).should == expected.strip
+  end
+  
 
   it "should log method arguments"
   it "should log return"

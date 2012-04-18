@@ -12,7 +12,8 @@ describe Instant::Runner do
       
       context_stub = stub(:context)
       context_stub.should_receive(:instance_eval).with(processed_source)
-
+      context_stub.should_receive(:close)
+      
       Instant::Context.stub(:new => context_stub)
       runner = Instant::Runner.new(processor)
       runner.run(source)
@@ -32,10 +33,10 @@ describe Instant::Runner do
       result[:status].should == :error
       result[:cause].should == :loop_too_deep
       results = result[:result].split("\n")
-      results[0].strip.should =~ /k = 1/
-      results[1].strip.should =~ /i = 2/
-      results[2].strip.should =~ /k =   0  | -1  | -2  | -3  | -4/
-      results[3].strip.should =~ /i =   0  |  1  |  2  |  3  |  4/
+      results[0].strip.should =~ /k        =   1/
+      results[1].strip.should =~ /i        =   2/
+      results[2].strip.should =~ /k        =   0  | -1  | -2  | -3  | -4/
+      results[3].strip.should =~ /i        =   0  |  1  |  2  |  3  |  4/
     end
     
     it "should print output in the while loop" do
@@ -46,7 +47,7 @@ describe Instant::Runner do
       k = (k - 1)
       i = (i + 1)
       
-      if k < 10
+      if k < -10
         return k
       end
     end
@@ -60,10 +61,10 @@ describe Instant::Runner do
 
       results.length.should == 4
 
-      results[0].strip.should =~ /k = 1/
-      results[1].strip.should =~ /i = 2/
-      results[2].strip.should =~ /k =   0  | -1  | -2  | -3  | -4/
-      results[3].strip.should =~ /i =   0  |  1  |  2  |  3  |  4/
+      results[0].strip.should =~ /k        =   1/
+      results[1].strip.should =~ /i        =   2/
+      results[2].strip.should =~ /k        =   0  | -1  | -2  | -3  | -4/
+      results[3].strip.should =~ /i        =   0  |  1  |  2  |  3  |  4/
     end    
   end
 end

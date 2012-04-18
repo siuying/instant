@@ -4,7 +4,7 @@ require 'pp'
 describe Instant::Context do
   it "should log assignment" do
     subject.log_assign(:a, "10")
-    subject.to_s.strip.should == "a = 10"
+    subject.to_s.strip.should == "a        =  10"
   end
   
   it "should log assignment inside loop" do
@@ -24,7 +24,7 @@ describe Instant::Context do
 
     subject.loop_end
 
-    subject.to_s.strip.should == "a =  10  | 11  | 12"
+    subject.to_s.strip.should == "a        =  10  | 11  | 12"
   end
 
   it "should log multiple assignment inside loop" do
@@ -47,7 +47,7 @@ describe Instant::Context do
     subject.loop_end
 
     outputs = subject.to_s.split("\n").collect{|l| l.strip}    
-    outputs.should be_include("a =  10  | 11  | 12")
-    outputs.should be_include("b =   A  |     |  C")
+    outputs.should be_include("a        =  10  | 11  | 12")
+    outputs.should be_include("b        =   A  |     |  C")
   end
 end

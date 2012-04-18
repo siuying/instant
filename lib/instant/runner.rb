@@ -10,9 +10,12 @@ module Instant
       begin
         @processed = @processor.process(source)
         context = Context.new
-
-        return_value = context.instance_eval(@processed)
-        context.close
+        
+        begin
+          return_value = context.instance_eval(@processed)
+        ensure
+          context.close
+        end
         {:status => :ok, :result => context.to_s, :return_value => return_value}
       rescue SyntaxError => e
         {:status => :error, :cause => :syntax_error, :message => format_error(e), :result => context.to_s }

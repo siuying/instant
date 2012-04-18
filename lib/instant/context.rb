@@ -12,6 +12,11 @@ module Instant
     
     def append(key, value)
       @logs[key] ||= []
+
+      if @logs[key].length + 1 > 10
+        raise ::Instant::LoopTooDeepError.new("Loop too much")
+      end
+
       @logs[key] << value
     end
 
@@ -65,7 +70,6 @@ module Instant
       @loop_counter = @loop_counter + 1
 
       if @loop_counter > 1000
-        self.loop_end
         raise ::Instant::LoopTooDeepError.new("Loop too much")
       end
     end

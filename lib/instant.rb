@@ -1,23 +1,12 @@
 class Instant
-  attr_reader :source, :processed
-
-  def initialize(source="")
+  def initialize
     @parser    = RubyParser.new
     @generator = Ruby2Ruby.new
-    self.source = source
   end
-  
-  def source=(source)
-    @source = source
-    @processed = self.process(source)
-    @source
-  end
-  
+
   def process(source)
-    sexp = @parser.process(source)
-    
-    sexp = process_sexp(sexp)
-    
+    sexp = @parser.process(source)    
+    sexp = process_sexp(sexp)    
     @generator.process(sexp)
   end
   

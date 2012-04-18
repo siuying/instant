@@ -13,8 +13,7 @@ end"
   a = LogAssign(:a, 2)
 end"
 
-    subject = Instant.new source
-    subject.processed.should == expected.strip
+    subject.process(source).should == expected.strip
   end
 
   it "should log simple assignment" do
@@ -25,8 +24,7 @@ end"
   a = LogAssign(:a, 1)
 end"
 
-    subject = Instant.new source
-    subject.processed.should == expected.strip
+    subject.process(source).should == expected.strip
   end
 
   it "should log assignment with operator" do
@@ -41,8 +39,7 @@ end"
   c = LogAssign(:c, (a + b))
 end"
 
-    subject = Instant.new source
-    subject.processed.should == expected.strip
+    subject.process(source).should == expected.strip
   end  
   
   it "should log while loop" do
@@ -68,10 +65,7 @@ end"
   EndLoop
 end"
 
-    pp parser.process(source)
-    pp parser.process(expected)
-    subject = Instant.new source
-    subject.processed.should == expected.strip
+    subject.process(source).should == expected.strip
   end
 
   it "should log method arguments"

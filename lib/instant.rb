@@ -37,10 +37,6 @@ class Instant
       s
     end
   end
-  
-  # watcg for :dasgn
-  def replace_dasgn(node)
-  end
 
   # watch for :lasgn
   def replace_lasgn(node)

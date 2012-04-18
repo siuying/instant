@@ -4,8 +4,20 @@ require 'pp'
 
 describe Instant do
   let(:parser) { RubyParser.new }
+  
+  it "should log assignment in parameter" do
+    source = "def hello(a=1)
+  a = 2
+end"
+    expected = "def hello(a = LogObject(:a, 1))
+  a = LogObject(:a, 2)
+end"
 
-  it "should replace simple assignment" do
+    subject = Instant.new source
+    subject.processed.should == expected.strip
+  end
+
+  it "should log simple assignment" do
     source = "def hello
   a = 1
 end"
@@ -16,5 +28,6 @@ end"
     subject = Instant.new source
     subject.processed.should == expected.strip
   end
+  
 
 end

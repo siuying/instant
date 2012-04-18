@@ -54,8 +54,7 @@ $ ->
         else
           $("#output").text("(no output)")
           
-        if data.return_value
-          $("#output").append("return #{data.return_value}")
+        $("#output").append("\nreturn #{data.return_value}")
 
         if data.status == "error" && data.message
           $("#output").after "<div class='alert alert-error err-msg'>#{data.message}</div>"

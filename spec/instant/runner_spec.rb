@@ -17,7 +17,6 @@ describe Instant::Runner do
       runner = Instant::Runner.new(processor)
       runner.run(source)
     end
-    
   
     it "should not die in infinite loop" do
       source = "def hello
@@ -32,6 +31,39 @@ describe Instant::Runner do
       result = runner.run(source)
       result[:status].should == :error
       result[:cause].should == :loop_too_deep
+      results = result[:result].split("\n")
+      results[0].strip.should =~ /k = 1/
+      results[1].strip.should =~ /i = 2/
+      results[2].strip.should =~ /k =   0  | -1  | -2  | -3  | -4/
+      results[3].strip.should =~ /i =   0  |  1  |  2  |  3  |  4/
     end
+    
+    it "should print output in the while loop" do
+      source = "def hello
+    k = 1
+    i = 2
+    while true do
+      k = (k - 1)
+      i = (i + 1)
+      
+      if k < 10
+        return k
+      end
+    end
+  end; hello"
+
+      runner = Instant::Runner.new
+      result = runner.run(source)
+      result[:status].should == :ok
+      results = result[:result].split("\n")
+      puts results
+
+      results.length.should == 4
+
+      results[0].strip.should =~ /k = 1/
+      results[1].strip.should =~ /i = 2/
+      results[2].strip.should =~ /k =   0  | -1  | -2  | -3  | -4/
+      results[3].strip.should =~ /i =   0  |  1  |  2  |  3  |  4/
+    end    
   end
 end

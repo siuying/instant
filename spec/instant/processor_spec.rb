@@ -102,6 +102,40 @@ end"
     subject.process(source).should == expected.strip
   end
   
+  it "should render while loop with return" do
+    source = "def hello
+  k = 1
+  i = 2
+  while true do
+    k = (k - 1)
+    i = (i + 1)
+      
+    if k < 10
+      return k
+    end
+  end
+end
+hello"
+
+    expected = "def hello
+  k = log_assign(:k, 1)
+  i = log_assign(:i, 2)
+  loop_begin
+  while true do
+    loop_inside_begin
+    (k = log_assign(:k, (k - 1))
+    i = log_assign(:i, (i + 1))
+    return k if (k < 10))
+    loop_inside_end
+  end
+  loop_end
+end
+hello"
+    pp parser.process source
+    pp parser.process expected 
+
+    subject.process(source).strip.should == expected
+  end
 
   it "should log method arguments"
   it "should log return"

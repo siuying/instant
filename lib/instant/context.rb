@@ -25,7 +25,7 @@ module Instant
     def to_s
       @logs.collect do |key, values|
         value = values.collect {|v| v.to_s.center(5) }.join("|")
-        "#{key.to_s} = #{value} "
+        "#{key.to_s.ljust(8)} = #{value} "
       end.join("\n")
     end
   end
@@ -46,7 +46,7 @@ module Instant
       if @log_collectors.size > 0
         @log_collectors.last.append name, value
       else
-        @logger.info "#{name} = #{value}"
+        @logger.info "#{name.to_s.ljust(8)} = #{value.to_s.center(5)}"
       end
       return value
     end
@@ -61,7 +61,7 @@ module Instant
     def loop_inside_end
       @log_collectors.last.fill_empty
       @loop_counter = @loop_counter + 1
-      
+
       if @loop_counter > 1000
         self.loop_end
         raise ::Instant::LoopTooDeepError.new("Loop too much")
@@ -71,6 +71,12 @@ module Instant
     def loop_end
       collector = @log_collectors.pop
       @logger.info collector.to_s
+    end
+    
+    def close
+      while collector = @log_collectors.pop
+        @logger.info collector.to_s
+      end
     end
     
     def to_s

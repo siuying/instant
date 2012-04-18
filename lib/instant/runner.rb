@@ -6,11 +6,11 @@ module Instant
       @processor = processor
     end
 
-    def run(source)
-      @processed = @processor.process(source)
-      context = Context.new
-      
+    def run(source)      
       begin
+        @processed = @processor.process(source)
+        context = Context.new
+
         return_value = context.instance_eval(@processed)
         context.close
         {:status => :ok, :result => context.to_s, :return_value => return_value}

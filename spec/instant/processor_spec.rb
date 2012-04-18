@@ -8,8 +8,8 @@ describe Instant::Processor do
     source = "def hello(a=1)
   a = 2
 end"
-    expected = "def hello(a = LogAssign(:a, 1))
-  a = LogAssign(:a, 2)
+    expected = "def hello(a = log_assign(:a, 1))
+  a = log_assign(:a, 2)
 end"
 
     subject.process(source).should == expected.strip
@@ -20,7 +20,7 @@ end"
   a = 1
 end"
     expected = "def hello
-  a = LogAssign(:a, 1)
+  a = log_assign(:a, 1)
 end"
 
     subject.process(source).should == expected.strip
@@ -33,9 +33,9 @@ end"
   c = a + b
 end"
     expected = "def hello
-  a = LogAssign(:a, 1)
-  b = LogAssign(:b, 2)
-  c = LogAssign(:c, (a + b))
+  a = log_assign(:a, 1)
+  b = log_assign(:b, 2)
+  c = log_assign(:c, (a + b))
 end"
 
     subject.process(source).should == expected.strip
@@ -52,16 +52,16 @@ end"
 end"
 
     expected = "def hello
-  i = LogAssign(:i, 0)
-  k = LogAssign(:k, 0)
-  BeginLoop
+  i = log_assign(:i, 0)
+  k = log_assign(:k, 0)
+  loop_begin
   while (i < 5) do
-    BeginInsideLoop
-    (k = LogAssign(:k, (k - 1))
-    i = LogAssign(:i, (i + 1)))
-    EndInsideLoop
+    loop_inside_begin
+    (k = log_assign(:k, (k - 1))
+    i = log_assign(:i, (i + 1)))
+    loop_inside_end
   end
-  EndLoop
+  loop_end
 end"
 
     subject.process(source).should == expected.strip

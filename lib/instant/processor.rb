@@ -21,9 +21,9 @@ module Instant
           when :lasgn
             s << log_lasgn(node)
           when :while
-            s << s(:call, nil, :BeginLoop, s(:arglist))
+            s << s(:call, nil, :loop_begin, s(:arglist))
             s << log_while(node)
-            s << s(:call, nil, :EndLoop, s(:arglist))
+            s << s(:call, nil, :loop_end, s(:arglist))
           else
             s << process_sexp(node)
           end
@@ -40,7 +40,7 @@ module Instant
       expr = node[2]
       s(:lasgn,
           name,
-          s(:call, nil, :LogAssign, s(:arglist, s(:lit, name), process_sexp(expr))))
+          s(:call, nil, :log_assign, s(:arglist, s(:lit, name), process_sexp(expr))))
     end
   
     # watch for :while
@@ -48,9 +48,9 @@ module Instant
       s(:while,
        process_sexp(node[1]),
        s(:block,
-        s(:call, nil, :BeginInsideLoop, s(:arglist)),
+        s(:call, nil, :loop_inside_begin, s(:arglist)),
         process_sexp(node[2]),
-        s(:call, nil, :EndInsideLoop, s(:arglist))),
+        s(:call, nil, :loop_inside_end, s(:arglist))),
        true)
     end
 

@@ -11,6 +11,14 @@ module Instant
       @logs[key] ||= []
       @logs[key] << value
     end
+
+    def fill_empty
+      max_length = @logs.values.collect{|v| v.length}.max
+      fill_keys  = @logs.keys.select {|k| @logs[k].length < max_length }
+      fill_keys.each do |key|
+        @logs[key] << ""
+      end
+    end
     
     def to_s
       @logs.collect do |key, values|
@@ -47,6 +55,7 @@ module Instant
     end
 
     def loop_inside_end
+      @log_collectors.last.fill_empty
     end
 
     def loop_end

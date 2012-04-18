@@ -46,8 +46,8 @@ describe Instant::Context do
 
     subject.loop_end
 
-    subject.to_s.strip.should == "a =  10  | 11  | 12
-b =   A  |     | C"
+    subject.to_s.strip.should == "a =  10  | 11  | 12   
+b =   A  |     |  C"
 
   end
   

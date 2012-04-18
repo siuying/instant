@@ -46,9 +46,9 @@ describe Instant::Context do
 
     subject.loop_end
 
-    subject.to_s.strip.should == "a =  10  | 11  | 12   
-b =   A  |     |  C"
-
+    outputs = subject.to_s.split("\n").collect{|l| l.strip}    
+    outputs.should be_include("a =  10  | 11  | 12")
+    outputs.should be_include("b =   A  |     |  C")
   end
   
 end

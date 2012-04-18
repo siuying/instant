@@ -6,7 +6,7 @@ module Instant
     class App < ::Sinatra::Base
       register ::Sinatra::Synchrony
 
-      set :public, File.expand_path(File.join(File.dirname(__FILE__), "../../../public"))
+      set :public_folder, File.expand_path(File.join(File.dirname(__FILE__), "../../../public"))
       set :views, File.expand_path(File.join(File.dirname(__FILE__), "../../../views"))
 
       get '/' do

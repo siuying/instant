@@ -6,6 +6,7 @@ gem "sinatra"
 gem "thin"
 
 group :development do
+  gem "foreman"
   gem "rspec"
   gem "autotest"
   gem "pry"

@@ -9,8 +9,8 @@ describe Instant do
     source = "def hello(a=1)
   a = 2
 end"
-    expected = "def hello(a = LogObject(:a, 1))
-  a = LogObject(:a, 2)
+    expected = "def hello(a = LogAssign(:a, 1))
+  a = LogAssign(:a, 2)
 end"
 
     subject = Instant.new source
@@ -22,12 +22,11 @@ end"
   a = 1
 end"
     expected = "def hello
-  a = LogObject(:a, 1)
+  a = LogAssign(:a, 1)
 end"
 
     subject = Instant.new source
     subject.processed.should == expected.strip
   end
   
-
 end

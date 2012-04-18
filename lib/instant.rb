@@ -24,10 +24,12 @@ class Instant
   private
   def process_sexp(sexp)
     sexp.inject(s()) do |s, node|
-      if node.class == Sexp
-        if node[0] == :lasgn
-          puts "lasgn: #{node}"
-          s << replace_lasgn(node)
+      case node
+      when Sexp
+        name = node[0]
+        case name
+        when :lasgn
+          s << log_lasgn(node)
         else
           s << process_sexp(node)
         end
@@ -39,12 +41,12 @@ class Instant
   end
 
   # watch for :lasgn
-  def replace_lasgn(node)
+  def log_lasgn(node)
     name = node[1]
     expr = node[2]
     s(:lasgn,
         name,
-        s(:call, nil, :LogObject, s(:arglist, s(:lit, name), expr)))
+        s(:call, nil, :LogAssign, s(:arglist, s(:lit, name), process_sexp(expr))))
   end
 
   # watch for :masgn  

@@ -15,7 +15,6 @@ module Instant
         context.close
         {:status => :ok, :result => context.to_s, :return_value => return_value}
       rescue Racc::ParseError => e
-        binding.pry
         {:status => :error, :cause => :parse_error, :message => "Parse Error: " + e.message, :result => context.to_s }
       rescue Instant::LoopTooDeepError => e
         {:status => :error, :cause => :loop_too_deep, :message => "Loop too deep", :result => context.to_s }

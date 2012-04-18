@@ -30,6 +30,10 @@ class Instant
         case name
         when :lasgn
           s << log_lasgn(node)
+        when :while
+          s << s(:call, nil, :BeginLoop, s(:arglist))
+          s << log_while(node)
+          s << s(:call, nil, :EndLoop, s(:arglist))
         else
           s << process_sexp(node)
         end
@@ -47,6 +51,17 @@ class Instant
     s(:lasgn,
         name,
         s(:call, nil, :LogAssign, s(:arglist, s(:lit, name), process_sexp(expr))))
+  end
+  
+  # watch for :while
+  def log_while(node)
+    s(:while,
+     process_sexp(node[1]),
+     s(:block,
+      s(:call, nil, :BeginInsideLoop, s(:arglist)),
+      process_sexp(node[2]),
+      s(:call, nil, :EndInsideLoop, s(:arglist))),
+     true)
   end
 
   # watch for :masgn  

@@ -2,6 +2,7 @@ source :rubygems
 
 gem "ruby2ruby"
 gem "ruby_parser"
+gem "sinatra"
 
 group :development do
   gem "rspec"

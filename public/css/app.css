@@ -1,0 +1,9 @@
+body {
+  font-size: 1.4em;
+}
+
+#editor {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}

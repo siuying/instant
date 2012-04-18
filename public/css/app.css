@@ -7,10 +7,10 @@
 .right {
   position: absolute;
   left: 500px;
-  width: 400px;
+  width: 800px;
   height: 100%;
 }
 
 #output {
-font-size: 1.4em;
+font-size: 1.2em;
 }

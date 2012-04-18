@@ -17,5 +17,18 @@ describe Instant::Runner do
       runner = Instant::Runner.new(processor)
       runner.run(source)
     end
+    
+  
+    it "should not die in infinite loop" do
+      source = "def hello
+    while true do
+      k = (k - 1)
+      i = (i + 1)
+    end
+  end"
+      
+      runner = Instant::Runner.new
+      runner.run(source)
+    end
   end
 end

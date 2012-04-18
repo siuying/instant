@@ -21,6 +21,8 @@ module Instant
             result.merge({:status => :ok}).to_json
           rescue Racc::ParseError => e
             {:status => :error, :message => e.message }.to_json
+          rescue Instant::LoopTooDeepError => e
+            {:status => :error, :message => e.message }.to_json
           end
         else
           {:status => :ok, :result => ""}.to_json

@@ -2,6 +2,8 @@ require 'logger'
 require 'stringio'
 
 module Instant
+  class LoopTooDeepError < StandardError; end
+
   class LogCollector
     def initialize
       @logs = {}
@@ -32,10 +34,12 @@ module Instant
     def initialize
       @stringio = StringIO.new
 
+      @loop_counter = 0
       @logger = Logger.new(@stringio)
       @logger.formatter = proc { |severity, datetime, progname, msg| "#{msg}\n" }
 
       @log_collectors = []
+      @loop_counter   = 0
     end
     
     def log_assign(name, value)
@@ -56,6 +60,12 @@ module Instant
 
     def loop_inside_end
       @log_collectors.last.fill_empty
+      @loop_counter = @loop_counter + 1
+      
+      if @loop_counter > 1000
+        loop_end
+        raise ::Instant::LoopTooDeepError.new("Loop too much")
+      end
     end
 
     def loop_end

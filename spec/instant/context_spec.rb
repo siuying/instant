@@ -50,5 +50,4 @@ describe Instant::Context do
     outputs.should be_include("a =  10  | 11  | 12")
     outputs.should be_include("b =   A  |     |  C")
   end
-  
 end

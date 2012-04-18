@@ -18,15 +18,15 @@
     <div class="row-fluid">
       <div class="span12">
         <div class="row-fluid">
-          <div class="span6">
-            <textarea id="editor" class="input-xlarge" rows="40">def binary_search(key, array)
+          <div class="left">
+            <div id="editor">def binary_search(key, array)
    low = 0
    high = array.length - 1
 end
 
-binary_search('a', ['a', 'b', 'c', 'd', 'e', 'f'])</textarea>
+binary_search('a', ['a', 'b', 'c', 'd', 'e', 'f'])</div>
           </div>
-          <div class="span6">
+          <div class="right">
             <pre id="output">
             </pre>
           </div>
@@ -37,10 +37,21 @@ binary_search('a', ['a', 'b', 'c', 'd', 'e', 'f'])</textarea>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/coffee-script.js"></script>
+    
+    <script src="/js/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/theme-twilight.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/mode-ruby.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/coffeescript">
 $ ->
+  editor = ace.edit("editor")
+  Ruby = require("ace/mode/ruby").Mode
+  editor.getSession().setMode(new Ruby())
+  editor.setTheme("ace/theme/twilight")
+  editor.getSession().setTabSize(2)
+  editor.getSession().setUseSoftTabs(true)
+
   compile = ->
-    val = $("#editor").val()
+    val = editor.getSession().getValue()
     $.ajax
       type: 'POST'
       url: '/compile'
@@ -67,10 +78,9 @@ $ ->
       dataType: 'json'
 
   compile()
-  
-  $("#editor").keyup (e) ->
-    compile()
+  editor.getSession().on 'change', compile
 
 </script>
+
   </body>
 </html>

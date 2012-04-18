@@ -1,11 +1,14 @@
 #editor {
-  font-size: 1.2em;
-  font-family: "Monaco";
-  position: relative;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  width: 500px;
+  height: 400px;
+}
+
+.right {
+  position: absolute;
+  left: 500px;
 }
 
 #output {
-  font-size: 1.4em;
+font-size: 1.4em;
 }

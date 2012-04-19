@@ -21,6 +21,10 @@ You can run it live at [instant-ruby.herokuapp.com](http://instant-ruby.herokuap
 
 ## Run locally
 
+First clone the source code from [github.com/siuying/instant](https://github.com/siuying/instant).
+
+In the app folder, run following commands:
+
     bundle install
     foreman start
     

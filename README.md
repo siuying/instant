@@ -6,8 +6,13 @@ talk and [@ermau  C# Implementation](https://github.com/ermau/Instant).
 
 ## Install as gem
 
+Install the Gem:
+
     gem install instant
     
+Then in your program:
+    
+    require 'rubygems'
     require 'instant'
     
     runner = Instant::Runner.new

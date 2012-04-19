@@ -47,7 +47,7 @@ describe Instant::Runner do
       k = (k - 1)
       i = (i + 1)
       
-      if k < -10
+      if k < -5
         return k
       end
     end

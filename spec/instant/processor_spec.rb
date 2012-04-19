@@ -131,8 +131,8 @@ hello"
   loop_end
 end
 hello"
-    pp parser.process source
-    pp parser.process expected 
+    #pp parser.process source
+    #pp parser.process expected 
 
     subject.process(source).strip.should == expected
   end

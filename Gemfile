@@ -5,6 +5,8 @@ gem "ruby_parser", "~> 2.3.1"
 
 group :development do
   gem "rspec", "~> 2.9.0"
+  gem "rake", "~> 1.1"
+  gem "echoe"
   gem "autotest"
   gem "pry"
 end

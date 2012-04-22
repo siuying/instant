@@ -11,8 +11,9 @@ module Instant
       begin
         @processed = @processor.process(source)
         context = Context.new
-        
-        begin
+        return_value = nil
+
+        begin          
           Timeout::timeout(timeout) do
             return_value = context.instance_eval(@processed)
           end

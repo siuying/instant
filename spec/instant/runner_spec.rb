@@ -80,5 +80,23 @@ describe Instant::Runner do
       results = result[:result].split("\n")
       results[0].strip.should =~ /k        =   1/
     end
+    
+    it "should guard against dangerous code" do
+      source = "def hello
+    k = 1
+    fork do
+      puts 'haha!'
+    end
+  end; hello"
+
+      runner = Instant::Runner.new
+      result = runner.run(source)
+      result[:status].should == :error
+      result[:cause].should == :security_error
+
+      results = result[:result].split("\n")
+      results[0].strip.should =~ /k        =   1/
+      
+    end
   end
 end

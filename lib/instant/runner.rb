@@ -13,14 +13,20 @@ module Instant
         context = Context.new
         return_value = nil
 
-        begin          
-          Timeout::timeout(timeout) do
-            return_value = context.instance_eval(@processed)
+        begin
+          thread = Thread.new do
+            $SAFE = 3          
+            Timeout::timeout(timeout) do
+              return_value = context.instance_eval(@processed)
+            end
           end
+          thread.join
         ensure
           context.close
         end
         {:status => :ok, :result => context.to_s, :return_value => return_value}
+      rescue SecurityError => e
+        {:status => :error, :cause => :security_error, :message => format_error(e), :result => context.to_s }
       rescue SyntaxError => e
         {:status => :error, :cause => :syntax_error, :message => format_error(e), :result => context.to_s }
       rescue Racc::ParseError => e

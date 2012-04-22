@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = "instant"
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Francis Chong"]
-  s.date = "2012-04-19"
+  s.date = "2012-04-22"
   s.description = "An experiment on real time visualize development tool."
   s.email = "francis@ignition.hk"
   s.extra_rdoc_files = ["README.md", "lib/instant.rb", "lib/instant/context.rb", "lib/instant/processor.rb", "lib/instant/runner.rb", "lib/instant/version.rb"]

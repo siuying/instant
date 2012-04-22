@@ -57,7 +57,6 @@ describe Instant::Runner do
       result = runner.run(source)
       result[:status].should == :ok
       results = result[:result].split("\n")
-      puts results
 
       results.length.should == 4
 
@@ -65,6 +64,21 @@ describe Instant::Runner do
       results[1].strip.should =~ /i        =   2/
       results[2].strip.should =~ /k        =   0  | -1  | -2  | -3  | -4/
       results[3].strip.should =~ /i        =   0  |  1  |  2  |  3  |  4/
-    end    
+    end
+    
+    it "should guard against slow code" do
+      source = "def hello
+    k = 1
+    sleep(10)
+  end; hello"
+
+      runner = Instant::Runner.new
+      result = runner.run(source)
+      result[:status].should == :error
+      result[:cause].should == :timeout
+
+      results = result[:result].split("\n")
+      results[0].strip.should =~ /k        =   1/
+    end
   end
 end

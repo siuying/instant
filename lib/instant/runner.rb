@@ -1,4 +1,5 @@
 require 'json'
+require 'timeout'
 
 module Instant
   class Runner
@@ -6,13 +7,15 @@ module Instant
       @processor = processor
     end
 
-    def run(source)      
+    def run(source, timeout=1)      
       begin
         @processed = @processor.process(source)
         context = Context.new
         
         begin
-          return_value = context.instance_eval(@processed)
+          Timeout::timeout(timeout) do
+            return_value = context.instance_eval(@processed)
+          end
         ensure
           context.close
         end
@@ -23,6 +26,8 @@ module Instant
         {:status => :error, :cause => :parse_error, :message => format_error(e), :result => context.to_s }
       rescue Instant::LoopTooDeepError => e
         {:status => :error, :cause => :loop_too_deep, :message => "Loop too deep", :result => context.to_s }
+      rescue Timeout::Error => e
+        {:status => :error, :cause => :timeout, :message => "Timeout: code take more than #{timeout}s to run.", :result => context.to_s }
       rescue StandardError => e
         {:status => :error, :cause => :unknown, :message => format_error(e), :result => context.to_s }        
       end

@@ -3,11 +3,12 @@ require 'timeout'
 
 module Instant
   class Runner
-    def initialize(processor = Processor.new)
+    def initialize(processor = Processor.new, timeout=1)
       @processor = processor
+      @timeout   = timeout
     end
 
-    def run(source, timeout=1)      
+    def run(source)      
       begin
         @processed = @processor.process(source)
         context = Context.new
@@ -16,7 +17,7 @@ module Instant
         begin
           thread = Thread.new do
             $SAFE = 3          
-            Timeout::timeout(timeout) do
+            Timeout::timeout(@timeout) do
               return_value = context.instance_eval(@processed)
             end
           end
@@ -34,7 +35,7 @@ module Instant
       rescue Instant::LoopTooDeepError => e
         {:status => :error, :cause => :loop_too_deep, :message => "Loop too deep", :result => context.to_s }
       rescue Timeout::Error => e
-        {:status => :error, :cause => :timeout, :message => "Timeout: code take more than #{timeout}s to run.", :result => context.to_s }
+        {:status => :error, :cause => :timeout, :message => "Timeout: code take more than #{@timeout}s to run.", :result => context.to_s }
       rescue StandardError => e
         {:status => :error, :cause => :unknown, :message => format_error(e), :result => context.to_s }        
       end

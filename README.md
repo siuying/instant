@@ -12,9 +12,11 @@ talk and [@ermau  C# Implementation](https://github.com/ermau/Instant).
 2. Clone the source code from [github.com/siuying/instant](https://github.com/siuying/instant).
 3. In the app folder, run following commands:
 
-    bundle install
-    foreman start
-  
+````
+bundle install
+foreman start
+````
+
 4. open your browser at http://127.0.0.1:5000/
 
 ## Install as gem

@@ -1,11 +1,9 @@
 require 'json'
-require 'sinatra/synchrony'
+require 'sinatra/base'
 
 module Instant
   module Sinatra
     class App < ::Sinatra::Base
-      register ::Sinatra::Synchrony
-
       set :public_folder, File.expand_path(File.join(File.dirname(__FILE__), "../../../public"))
       set :views, File.expand_path(File.join(File.dirname(__FILE__), "../../../views"))
 

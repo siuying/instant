@@ -13,5 +13,6 @@ group :development do
 end
 
 group :production do
-  gem "sinatra", "~> 1.3.2"
+  gem "sinatra", "~> 1.3.1"
+  gem "warbler" if RUBY_PLATFORM =~ /java/
 end

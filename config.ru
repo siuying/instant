@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'bundler'
-Bundler.require :default
+Bundler.require :default, :production
 
 $LOAD_PATH << "lib"
 require 'instant'
